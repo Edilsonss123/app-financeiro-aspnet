@@ -1,0 +1,23 @@
+version: '3.6'
+services:
+  micro-servico-fina:
+    image: edilsonss123/dotnet:8
+    container_name: micro-servico-fina
+    ports:
+      - 5082:5082
+    command: ["tail", "-f", "/dev/null"] # To keep the container running
+    volumes:
+      - ./Fina:/projetos/Fina
+      - ~/.dotnet/corefx/cryptography/x509stores/my:/https:ro
+    environment:
+      "ASPNETCORE_URLS": "https://+;http://+"
+      #"ASPNETCORE_Kestrel__Certificates__Default__Password": "123456"
+      "ASPNETCORE_Kestrel__Certificates__Default__Path": "/https/74073EBF3922711151118819D0DDFFD520D2F27A.pfx"
+      "ASPNETCORE_HTTPS_PORT": "5066"
+    restart: always
+    networks:
+      - micro-servico-fina
+networks:
+  micro-servico-fina:
+    name: micro-servico-fina
+    driver: bridge
