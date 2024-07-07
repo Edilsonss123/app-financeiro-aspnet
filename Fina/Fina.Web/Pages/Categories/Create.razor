@@ -1,0 +1,12 @@
+@page "/catergorias/adicionar"
+@using MudBlazor
+@inherits CreateCategoryPage
+
+<MudTex Typo="Typo.h3">Nova Categoria</MudTex>
+
+<MudPaper Class="pa-8 mt-4">
+    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+        <ValidationSummary></ValidationSummary>
+    </EditForm>
+</MudPaper>

@@ -15,8 +15,29 @@ services:
       "ASPNETCORE_Kestrel__Certificates__Default__Path": "/https/74073EBF3922711151118819D0DDFFD520D2F27A.pfx"
       "ASPNETCORE_HTTPS_PORT": "5066"
     restart: always
+    depends_on:
+      - db-mysql-fina
     networks:
       - micro-servico-fina
+  db-mysql-fina:
+    image: mysql
+    container_name: db-mysql-fina
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "2099:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: micro-servico-fina
+      MYSQL_USER: db-mysql-fina
+      MYSQL_PASSWORD: db-mysql-fina
+    networks:
+      - micro-servico-fina
+
 networks:
   micro-servico-fina:
     name: micro-servico-fina
